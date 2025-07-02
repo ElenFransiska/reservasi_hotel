@@ -175,6 +175,7 @@ if (isset($pdoHotel) && $pdoHotel instanceof PDO) { // Verify $pdoHotel is a PDO
                     <li><a href="admin.php?tab=reservations" class="active"><i class="fas fa-book"></i> Kelola Pemesanan</a></li>
                     <li><a href="admin.php?tab=reports"><i class="fas fa-chart-line"></i> Laporan Bulanan</a></li>
                     <li><a href="manage_rooms.php"><i class="fas fa-hotel"></i> Kelola Kamar</a></li>
+                    <li><a href="manage_pesan.php"><i class="fas fa-hotel"></i> Kelola Pesan</a></li>
                         <li><a href="../../index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>

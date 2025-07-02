@@ -1,41 +1,50 @@
 <?php
-// db_config.php - Database connection configuration
+// controllers/db.php (Contoh dengan MySQLi)
 
-$servername = "localhost"; // Your database server name
-$username = "root";        // Your database username
-$password = "";            // Your database password
-$dbname = "hotel";         // Your database name (from the phpMyAdmin image: hotel)
+$servername = "localhost";
+$username = "root"; // Ganti dengan username database Anda
+$password = "";     // Ganti dengan password database Anda
+$dbname = "hotel"; // PASTIKAN NAMA DATABASE INI BENAR SESUAI DENGAN PHPMYADMIN ANDA
 
-// Create a new database connection
+// Buat koneksi
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check if the connection was successful
+// Cek koneksi
 if ($conn->connect_error) {
-    // If connection fails, stop script execution and display an error message
-    die('<p style="text-align: center; color: red;">Koneksi ke database gagal: ' . $conn->connect_error . '</p>');
+    // Lebih baik lempar exception atau log error tanpa die() di lingkungan produksi
+    // Untuk debugging, die() bisa diterima.
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
-// Function to safely retrieve rooms data from the database
+// Fungsi untuk mendapatkan data kamar (jika Anda masih menggunakannya)
 function getRooms($conn) {
-    // SQL query to select relevant room data from the 'Kamar' table
-    // It filters for active rooms and orders them by name
-    $sql = "SELECT id, nama_kamar, deskripsi, harga_per_malam, gambar_url FROM Kamar WHERE is_aktif = TRUE ORDER BY nama_kamar ASC";
-    
-    // Execute the query
+    $sql = "SELECT id, nama_kamar, deskripsi, tipe_kamar, kapasitas_dewasa, kapasitas_anak, harga_per_malam, jumlah_tempat_tidur, tipe_tempat_tidur, ukuran_kamar, stock_available, gambar_url FROM kamar WHERE is_aktif = 1 AND stock_available > 0";
     $result = $conn->query($sql);
-
-    $rooms = []; // Initialize an empty array to store room data
-    
-    // Check if any rows were returned
-    if ($result->num_rows > 0) {
-        // Fetch each row as an associative array and add it to the $rooms array
+    $rooms = [];
+    if ($result && $result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             $rooms[] = $row;
         }
     }
-    return $rooms; // Return the array of rooms
+    return $rooms;
 }
 
-// Note: The database connection ($conn) is closed in the main file
-// after all data retrieval is complete to ensure resources are freed.
+// Fungsi untuk Menyimpan Pesan Kontak
+function saveContactMessage($conn, $nama, $email, $subjek, $pesan) {
+    // Gunakan parameterized query untuk mencegah SQL Injection
+    $stmt = $conn->prepare("INSERT INTO pesan_kontak (nama, email, subjek, pesan) VALUES (?, ?, ?, ?)");
+    if ($stmt === false) {
+        error_log("Prepare failed: " . $conn->error);
+        return false;
+    }
+    // "ssss" menunjukkan 4 string sebagai tipe parameter
+    $stmt->bind_param("ssss", $nama, $email, $subjek, $pesan);
+    $success = $stmt->execute();
+    if (!$success) {
+        error_log("Execute failed: " . $stmt->error);
+    }
+    $stmt->close();
+    return $success;
+}
+
 ?>

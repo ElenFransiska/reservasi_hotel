@@ -8,19 +8,19 @@ class Room {
     }
 
     public function getAllRooms() {
-        $stmt = $this->db->prepare("SELECT * FROM rooms");
+        $stmt = $this->db->prepare("SELECT * FROM kamar");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAvailableRooms() {
-        $stmt = $this->db->prepare("SELECT * FROM rooms WHERE status = 'available'");
+        $stmt = $this->db->prepare("SELECT * FROM kamar WHERE status = 'available'");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function updateRoomStatus($roomId, $status) {
-        $stmt = $this->db->prepare("UPDATE rooms SET status = ? WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE kamar SET status = ? WHERE id = ?");
         $stmt->execute([$status, $roomId]);
     }
 }

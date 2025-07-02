@@ -35,150 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Reservasi Hotel - Beranda</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary: #007bff;
-            --secondary: #6c757d;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --success: #28a745;
-            --error: #dc3545;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e2e8f0 100%);
-            min-height: 100vh;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            margin-bottom: 3rem;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-        .logo i {
-            font-size: 2rem;
-        }
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-            animation: fadeIn 1s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--dark);
-            opacity: 0.8;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        .feature-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .feature-desc {
-            color: #64748b;
-            line-height: 1.6;
-        }
-        .cta-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        .buttons {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-        .btn-outline {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            background: white;
-        }
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="../../assets/css/css_home.css"> <!-- Link ke file CSS terpisah -->
 </head>
 <body>
     <div class="container">
@@ -187,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <i class="fas fa-hotel"></i>
                 <span>ReservasiHotel</span>
             </a>
+            <div class="logout-button">
+                <a href="../../index.php" class="btn btn-outline">Logout</a>
+            </div>
         </header>
         <section class="hero">
             <h1>Selamat Datang di Sistem Reservasi Hotel</h1>
@@ -231,16 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="cta-section">
             <div class="buttons">
                 <a href="rooms.php" class="btn btn-primary">
-                    <i class="fas fa-book"></i> Pesan Kamar
+                    <i class="fas fa-book"></i> Lihat Kamar
                 </a>
                 <a href="contact.php" class="btn btn-outline">
                     <i class="fas fa-envelope"></i> Kontak Kami
                 </a>
-                <!-- Tombol Login dihapus -->
             </div>
         </div>
-        
-        <!-- Formulir login dihapus -->
         
     </div>
 
