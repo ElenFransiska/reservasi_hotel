@@ -1,13 +1,18 @@
 <?php
-$host = 'localhost';
-$dbname = 'reservasi_hotel';
-$username = 'root'; // Ganti dengan username database Anda
-$password = ''; // Ganti dengan password database Anda
+// db_connection.php - koneksi ke database MySQL
+$servername = "localhost";   // ganti dengan host database Anda
+$username = "root";          // ganti dengan username database Anda
+$password = "";              // ganti dengan password database Anda
+$dbname = "hotel";       // ganti dengan nama database Anda
 
-try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+// Membuat koneksi
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
+
+// Set charset agar mendukung UTF-8
+$conn->set_charset("utf8mb4");
 ?>

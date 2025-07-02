@@ -1,49 +1,66 @@
 <?php
+// controllers/ReservationController.php
 
-session_start();
-require_once '../config/config.php';
-require_once '../app/models/Reservation.php';
+// Sertakan file koneksi database.
+// Asumsi: Anda memiliki file koneksi database di ../controllers/db.php.
+// Jika file koneksi Anda ada di ../config/config.php, sesuaikan require_once.
+require_once '../../config/config.php'; // Atau '../../config/config.php' jika itu yang benar
 
-class ReservationController {
-    private $reservationModel;
+// Periksa apakah request adalah POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil dan sanitasi data dari form
+    $guest_name = htmlspecialchars($_POST['guest_name'] ?? '');
+    $check_in_date = htmlspecialchars($_POST['check_in_date'] ?? '');
+    $check_out_date = htmlspecialchars($_POST['check_out_date'] ?? '');
+    $room_type = htmlspecialchars($_POST['room_type'] ?? '');
+    $num_guests = (int)($_POST['num_guests'] ?? 0);
+    $email = htmlspecialchars($_POST['email'] ?? '');
+    $phone_number = htmlspecialchars($_POST['phone_number'] ?? '');
+    $special_requests = htmlspecialchars($_POST['special_requests'] ?? '');
 
-    public function __construct($db) {
-        $this->reservationModel = new Reservation($db);
+    // Validasi dasar
+    if (empty($guest_name) || empty($check_in_date) || empty($check_out_date) || empty($room_type) || $num_guests <= 0) {
+        header("Location: ../views/pesankamar.php?status=error&message=validation_failed");
+        exit();
     }
 
-    public function create() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $userId = $_SESSION['user_id'];
-            $roomId = $_POST['room_id'];
-            $checkIn = $_POST['check_in'];
-            $checkOut = $_POST['check_out'];
+    // Menggunakan Prepared Statement
+    $stmt = $conn->prepare("INSERT INTO reservations (guest_name, check_in_date, check_out_date, room_type, num_guests, email, phone_number, special_requests) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-            if ($this->reservationModel->createReservation($userId, $roomId, $checkIn, $checkOut)) {
-                header('Location: dashboard.php');
-                exit();
-            } else {
-                $error = "Gagal menyewa kamar.";
-                require '../app/views/reservations.php';
-            }
+    // Periksa jika persiapan statement gagal
+    if ($stmt === false) {
+        error_log("Error preparing reservation statement: " . $conn->error);
+        header("Location: ../views/pesankamar.php?status=error&message=db_prepare_failed");
+        exit();
+    }
+
+    // Bind parameter
+    $stmt->bind_param("ssssisss", $guest_name, $check_in_date, $check_out_date, $room_type, $num_guests, $email, $phone_number, $special_requests);
+
+    // Jalankan query
+    if ($stmt->execute()) {
+        // Pemesanan berhasil!
+        header("Location: ../views/pesankamar.php?status=success");
+        exit();
+    } else {
+        // Terjadi kesalahan saat menyimpan data
+        error_log("Error inserting reservation data: " . $stmt->error);
+        // Tangkap error duplikat entry primary key jika terjadi pada tabel 'reservations'
+        if ($conn->errno == 1062) { // 1062 adalah kode error untuk Duplicate entry for key 'PRIMARY'
+             header("Location: ../views/pesankamar.php?status=error&message=duplicate_entry");
         } else {
-            require '../app/views/reservations.php';
+             header("Location: ../views/pesankamar.php?status=error&message=db_insert_failed");
         }
+        exit();
     }
 
-    public function cancel($reservationId) {
-        if ($this->reservationModel->cancelReservation($reservationId)) {
-            header('Location: dashboard.php');
-            exit();
-        } else {
-            $error = "Gagal membatalkan penyewaan.";
-            require '../app/views/reservations.php';
-        }
-    }
+    // Tutup statement dan koneksi
+    $stmt->close();
+    $conn->close();
 
-    public function listUserReservation() {
-        $userId = $_SESSION['user_id'];
-        $reservations = $this->reservationModel->getUserReservation($userId);
-        require '../app/views/reservations.php';
-    }
+} else {
+    // Jika diakses langsung tanpa POST request
+    header("Location: ../views/pesankamar.php?status=error&message=invalid_access");
+    exit();
 }
 ?>

@@ -1,0 +1,208 @@
+/* css/style_form.css */
+
+/* Variabel CSS untuk konsistensi */
+:root {
+    --primary-blue: #007bff;
+    --primary-dark-blue: #0056b3;
+    --text-dark: #343a40;
+    --text-medium: #6c757d;
+    --light-bg: #f8f9fa;
+    --border-color: #ced4da;
+    --shadow-light: 0 8px 30px rgba(0, 0, 0, 0.1);
+    --bg-gradient-start: #e0f8ff; /* Sangat terang, mirip cloud */
+    --bg-gradient-end: #d0efff;   /* Biru langit lembut */
+    --success-green: #28a745;
+    --error-red: #dc3545;
+}
+
+/* Gaya Body Keseluruhan */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Container Form Pemesanan */
+.container.reservation-form-container {
+    background-color: white;
+    padding: 3rem;
+    border-radius: 18px;
+    box-shadow: var(--shadow-light);
+    width: 100%;
+    max-width: 600px; /* Lebih lebar untuk form yang lebih banyak field */
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.container.reservation-form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Judul Form */
+.container.reservation-form-container h2 {
+    font-size: 2.2rem;
+    color: var(--primary-dark-blue);
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+}
+
+/* Grup Form (Label & Input) */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-medium);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    background-color: var(--light-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+    background-color: white;
+}
+
+/* Tombol Submit */
+.submit-button {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(to right, var(--primary-blue), var(--primary-dark-blue));
+    color: white;
+    border: none;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    margin-top: 1.5rem; /* Jarak dari form group terakhir */
+}
+
+.submit-button:hover {
+    background: linear-gradient(to right, var(--primary-dark-blue), #004085);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Pesan Sukses dan Error */
+p.success-message {
+    color: white;
+    background-color: var(--success-green);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    animation: fadeIn 0.5s ease-out;
+}
+
+p.error-message {
+    color: white;
+    background-color: var(--error-red);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Link Kembali ke Home */
+p.back-link {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+}
+
+p.back-link a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+p.back-link a:hover {
+    color: var(--primary-dark-blue);
+    text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container.reservation-form-container {
+        padding: 2rem;
+        max-width: 90%;
+    }
+    .container.reservation-form-container h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+    .submit-button {
+        padding: 0.9rem;
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+    p.success-message,
+    p.error-message {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+}

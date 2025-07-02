@@ -3,7 +3,7 @@ ob_start(); // Mulai output buffering untuk mencegah "headers already sent"
 session_start(); // Mulai sesi
 
 // Sertakan file yang berisi fungsi otentik dan koneksi DB
-include('crusedur2.php');
+include('../models/crusedur2.php');
 
 $username = $_POST['username'] ?? ''; // Ambil username, gunakan null coalescing operator untuk keamanan
 $password = $_POST['password'] ?? ''; // Ambil password
